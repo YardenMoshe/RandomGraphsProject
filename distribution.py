@@ -27,7 +27,7 @@ def get_random_weights(distruibtion, N, pairForPareteo=(1, 1)):
         return binomial_random(N, 0.5)
 
     if distruibtion == Distribution.PARETO:
-        return bounded_pareto_random(pairForPareteo, N)
+        return bounded_pareto_random(N, pairForPareteo)
 
 
 def geometrical_random(N):
@@ -42,5 +42,5 @@ def binomial_random(N, p):
     return np.reshape(np.random.binomial(1, [p] * N * N), (N, N))
 
 
-def bounded_pareto_random(paretoPair, N):
-    return generate_bounded_pareto_random(paretoPair[0], paretoPair[1], N)
+def bounded_pareto_random(N, pareto_parameters):
+    return generate_bounded_pareto_random(pareto_parameters[0], pareto_parameters[1], N)
