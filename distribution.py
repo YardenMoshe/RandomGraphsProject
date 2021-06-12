@@ -13,21 +13,22 @@ class Distribution(Enum):
     PARETO = 5
 
 
-def get_random_weights(distruibtion, N, pairForPareteo=(1, 1)):
-    if distruibtion == Distribution.EXPONENTIAL:
+def get_random_weights(distribution, N, pareto_parameters=(1, 1)):
+
+    if distribution == Distribution.EXPONENTIAL:
         return exponential_random(N)
 
-    if distruibtion == Distribution.GEOMETRIC:
+    if distribution == Distribution.GEOMETRIC:
         return geometrical_random(N)
 
-    if distruibtion == Distribution.BINOMIAL_QUARTER:
+    if distribution == Distribution.BINOMIAL_QUARTER:
         return binomial_random(N, 0.25)
 
-    if distruibtion == Distribution.BINOMIAL_HALF:
+    if distribution == Distribution.BINOMIAL_HALF:
         return binomial_random(N, 0.5)
 
-    if distruibtion == Distribution.PARETO:
-        return bounded_pareto_random(N, pairForPareteo)
+    if distribution == Distribution.PARETO:
+        return bounded_pareto_random(N, pareto_parameters)
 
 
 def geometrical_random(N):
