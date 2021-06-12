@@ -20,10 +20,10 @@ def get_random_weights(distruibtion, N, pairForPareteo=(1, 1)):
     if distruibtion == Distribution.GEOMETRIC:
         return geometrical_random(N)
 
-    if distruibtion == Distribution.BINOMIAL_FIRST:
+    if distruibtion == Distribution.BINOMIAL_QUARTER:
         return binomial_random(N, 0.25)
 
-    if distruibtion == Distribution.BINOMIAL_SECOND:
+    if distruibtion == Distribution.BINOMIAL_HALF:
         return binomial_random(N, 0.5)
 
     if distruibtion == Distribution.PARETO:
