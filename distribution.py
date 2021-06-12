@@ -4,38 +4,43 @@ from enum import Enum
 
 from bounded_pareto_generator import generate_bounded_pareto_random
 
+
 class Distribution(Enum):
     EXPONENTIAL = 1
     GEOMETRIC = 2
-    BINOMIAL_FIRST = 3
-    BINOMIAL_SECOND = 4
+    BINOMIAL_QUARTER = 3
+    BINOMIAL_HALF = 4
     PARETO = 5
 
-def getRandomWeights(distruibtion, N,pairForPareteo=(1,1)):
+
+def get_random_weights(distruibtion, N, pairForPareteo=(1, 1)):
     if distruibtion == Distribution.EXPONENTIAL:
-        return exponentialRandomFunction(N)
+        return exponential_random(N)
 
     if distruibtion == Distribution.GEOMETRIC:
-        return geometricalRandomFunction(N)
+        return geometrical_random(N)
 
     if distruibtion == Distribution.BINOMIAL_FIRST:
-        return BinaryRandomFunction(N, 0.25)
+        return binomial_random(N, 0.25)
 
     if distruibtion == Distribution.BINOMIAL_SECOND:
-        return BinaryRandomFunction(N, 0.5)
+        return binomial_random(N, 0.5)
 
     if distruibtion == Distribution.PARETO:
-        return ParetoRandomFunction(pairForPareteo, N)
+        return bounded_pareto_random(pairForPareteo, N)
 
 
-def geometricalRandomFunction(N):
+def geometrical_random(N):
     return np.random.geometric(p=1 - 1 / math.e, size=(N, N))  # p=0.63212055882
 
-def exponentialRandomFunction(N):
+
+def exponential_random(N):
     return np.random.exponential(scale=1.0, size=(N, N))
 
-def BinaryRandomFunction(N, p):
-    return np.reshape(np.random.binomial(1, [p] * N*N),(N,N))
 
-def ParetoRandomFunction(paretoPair, N):
+def binomial_random(N, p):
+    return np.reshape(np.random.binomial(1, [p] * N * N), (N, N))
+
+
+def bounded_pareto_random(paretoPair, N):
     return generate_bounded_pareto_random(paretoPair[0], paretoPair[1], N)

@@ -1,7 +1,7 @@
 import itertools
 import time
 
-from distribution import Distribution, getRandomWeights
+from distribution import Distribution, get_random_weights
 
 # NValues = [10,100,1000,10000]
 NValues = [10]
@@ -13,8 +13,8 @@ for N in NValues:
         print(dist, N)
         if dist == Distribution.PARETO:
             for paretoVal in paretoValues:
-                print(getRandomWeights(dist, N, paretoVal))
+                print(get_random_weights(dist, N, paretoVal))
         else:
-            print(getRandomWeights(dist, N))
+            print(get_random_weights(dist, N))
 end = time.time()
 print("completed in: %s seconds" % (end - start))
