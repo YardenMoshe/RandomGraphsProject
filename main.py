@@ -10,6 +10,7 @@ paretoValues = list(itertools.product([0.5, 1, 1.5, 2], [100, 10000, 1000000, 10
 start = time.time()
 weights = get_random_weights(Distribution.BINOMIAL_HALF, N)
 heavy_weights_matrix = HeavyPathCalculator(weights).calculate_heavy_paths_matrix()
+heaviest_path_weight = heavy_weights_matrix[N][N]
 end = time.time()
 print("completed in: %s seconds" % (end - start))
 
