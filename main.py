@@ -2,8 +2,6 @@ import itertools
 import math
 import time
 
-import numpy as np
-
 from calculate_heavy_path_matrix import HeavyPathCalculator
 from distribution import Distribution, get_random_weights
 
@@ -32,4 +30,3 @@ print("completed in: %s seconds" % (end - start))
 #         else:
 #             weights = get_random_weights(dist, N)
 # end = time.time()
-print("completed in: %s seconds" % (end - start))

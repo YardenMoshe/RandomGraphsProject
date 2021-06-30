@@ -13,12 +13,12 @@ class HeavyPathCalculator:
         else:
             return self.max_weights_matrix[y][x]
 
-    def dp(self,y, x):
+    def calculate_heavy_path_to(self, y, x):
         return max(self.max_weights_matrix_value(x, y - 1) + self.weights[y][x],
                    (self.max_weights_matrix_value(x - 1, y) + self.weights[y][x]))
 
     def calculate_heavy_paths_matrix(self):
         for y in range(0, self.N):
             for x in range(0, self.N):
-                self.max_weights_matrix[y][x] = self.dp(y, x)
+                self.max_weights_matrix[y][x] = self.calculate_heavy_path_to(y, x)
         return self.max_weights_matrix
