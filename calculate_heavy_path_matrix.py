@@ -1,24 +1,24 @@
 import numpy as np
-
+from multiprocessing import Pool, Process
 
 class HeavyPathCalculator:
     def __init__(self, weights):
         self.weights = weights
         self.N = weights.shape.__getitem__(0)
-        self.max_weights_matrix = np.zeros((self.N, self.N))
 
-    def max_weights_matrix_value(self, x, y):
-        if x < 0 or y < 0:
-            return 0
-        else:
-            return self.max_weights_matrix[y][x]
-
-    def calculate_heavy_path_to(self, y, x):
-        return max(self.max_weights_matrix_value(x, y - 1) + self.weights[y][x],
-                   (self.max_weights_matrix_value(x - 1, y) + self.weights[y][x]))
 
     def calculate_heavy_paths_matrix(self):
-        for y in range(0, self.N):
-            for x in range(0, self.N):
-                self.max_weights_matrix[y][x] = self.calculate_heavy_path_to(y, x)
-        return self.max_weights_matrix
+        max_weights_matrix = np.copy(self.weights)
+
+        max_weights_matrix[0][0]=self.weights[0][0]
+        for x in range(1,self.N):
+            max_weights_matrix[0][x]+=max_weights_matrix[0][x-1]
+
+        for y in range(1,self.N):
+            max_weights_matrix[y][0]+=max_weights_matrix[y-1][0]
+
+        for y in range(1,self.N):
+            for x in range(1,self.N):
+                max_weights_matrix[y][x] += max(max_weights_matrix[y-1][x],max_weights_matrix[y][x-1])
+
+        return max_weights_matrix
