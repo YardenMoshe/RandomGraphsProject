@@ -1,18 +1,17 @@
 import math
 import numpy as np
+import numba as nb
 
-
+@nb.njit(['float64[:,::1](float64,int32,int32)'])
 def generate_bounded_pareto_random(alpha, max_value, N):
     # according to wikipedia page: https://en.wikipedia.org/wiki/Pareto_distribution#Bounded_Pareto_distribution
     # section: 3.5.1
-
-    uniform_random_numbers = np.random.random(N * N)[0:N * N]
-    bounded_pareto_samples = [generate_single_pareto_variable(number, max_value, alpha) for number in uniform_random_numbers]
+    n_square = int(math.pow(N, 2))
+    uniform_random_numbers = np.random.random(n_square)[0:n_square]
+    bounded_pareto_samples = np.empty(n_square)
+    i = 0
+    for n in uniform_random_numbers:
+        h = math.pow(max_value, alpha)
+        bounded_pareto_samples[i] = math.pow(-((n * h - n - h) / h), -1 / alpha)
+        i += 1
     return np.reshape(bounded_pareto_samples, (N, N))
-
-
-def generate_single_pareto_variable(n, z, alpha):
-    h = math.pow(z, alpha)
-    semi_compution = n * h - n - h
-    final = math.pow(-(semi_compution / h), -1 / alpha)
-    return final

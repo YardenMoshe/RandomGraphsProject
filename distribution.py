@@ -1,9 +1,6 @@
 import math
 import numpy as np
 from enum import Enum
-
-from numpy import dtype
-
 from bounded_pareto_generator import generate_bounded_pareto_random
 
 
