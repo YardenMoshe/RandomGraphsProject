@@ -1,7 +1,6 @@
 import os
 import numpy
-from datetime import datetime
-
+import uuid
 
 def save(input_graph, dist, extra_details="", subdir_prefix="saved/"):
     N = len(input_graph)
@@ -9,11 +8,10 @@ def save(input_graph, dist, extra_details="", subdir_prefix="saved/"):
     if not os.path.exists(subdir):
         os.makedirs(subdir)
 
-    current_time = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
-    file_name = "{0}/{1}_{2}___{3}.npy".format(subdir,
+    file_name = "{0}/{1}_{2}_{3}.npy".format(subdir,
                                                str(N),
                                                str(extra_details),
-                                               str(current_time))
+                                               str(uuid.uuid4()))
     file = open(file_name, 'wb')
     numpy.save(file, input_graph)
 
