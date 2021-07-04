@@ -7,11 +7,9 @@ import numba as nb
           'float64[:,::1](float64[:,::1],int64)'])
 def calculate_heavy_paths_matrix(input, N):
     output = np.copy(input)
-    for x in range(1, N):
-        output[0][x] += output[0][x - 1]
-
-    for y in range(1, N):
-        output[y][0] += output[y - 1][0]
+    for s in range(1, N):
+        output[0][s] += output[0][s - 1]
+        output[s][0] += output[s - 1][0]
 
     for y in range(1, N):
         for x in range(1, N):
