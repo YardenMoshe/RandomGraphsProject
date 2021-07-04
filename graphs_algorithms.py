@@ -1,14 +1,11 @@
 import numpy as np
 import numba as nb
 
-
 __all__ = ['calculate_maximum_paths_matrix',
            'calculate_heavy_paths_diamond_matrix',
            'get_maximum_weight_index',
            'get_maximum_path_weight'
            ]
-
-
 
 
 @nb.njit(['int64[:,::1](int64[:,::1])',
@@ -49,7 +46,7 @@ def calculate_heavy_paths_diamond_matrix(input):
 
 @nb.njit(['UniTuple(int32, 3)(int32[:,::1])',
           'UniTuple(int64, 3)(int64[:,::1])',
-          'UniTuple(int64, 3)(float64[:,::1])'])
+          'UniTuple(float64, 3)(float64[:,::1])'])
 def get_maximum_weight_and_index(input):
     N = len(input)
     max = 0
@@ -64,8 +61,8 @@ def get_maximum_weight_and_index(input):
 
 
 def get_maximum_weight_index(input):
-    return (get_maximum_weight_and_index(input).__getitem__(0),
-            get_maximum_weight_and_index(input).__getitem__(1))
+    return (int(get_maximum_weight_and_index(input).__getitem__(0)),
+            int(get_maximum_weight_and_index(input).__getitem__(1)))
 
 
 def get_maximum_path_weight(input):
