@@ -3,6 +3,7 @@ import numpy as np
 import numba as nb
 from enum import Enum
 
+__all__ = ['Distribution', 'get_random_weights']
 
 class Distribution(Enum):
     EXPONENTIAL = 1
@@ -41,7 +42,8 @@ def binomial_random(N, p):
     return np.reshape(np.random.binomial(1, [p] * N * N), (N, N))
 
 
-@nb.njit(['float64[:,::1](float64,int32,int32)'])
+@nb.njit(['float64[:,::1](float64,int32,int32)',
+          'float64[:,::1](float64,int64,int64)'])
 def generate_bounded_pareto_random(alpha, max_value, N):
     # according to wikipedia page:
     # https://en.wikipedia.org/wiki/Pareto_distribution#Bounded_Pareto_distribution
