@@ -3,7 +3,8 @@ import numpy
 from datetime import datetime
 
 
-def save(weights, dist, N, extra_details="", subdir_prefix="saved/"):
+def save(input_graph, dist, extra_details="", subdir_prefix="saved/"):
+    N=len(input_graph)
     subdir = "{0}/{1}".format(subdir_prefix, (str(dist)).replace("Distribution.", ""))
     if not os.path.exists(subdir):
         os.makedirs(subdir)
@@ -14,7 +15,7 @@ def save(weights, dist, N, extra_details="", subdir_prefix="saved/"):
                                                str(extra_details),
                                                str(current_time))
     file = open(file_name, 'wb')
-    numpy.save(file, weights)
+    numpy.save(file, input_graph)
 
 
 def load(file_name):
