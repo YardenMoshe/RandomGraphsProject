@@ -12,6 +12,3 @@ distribution = Distribution.EXPONENTIAL
 weights = get_random_weights(distribution, N)
 maximum_paths_matrix = calculate_maximum_paths_matrix(weights)
 max_path = get_maximum_path_weight(maximum_paths_matrix)
-graphs_files_handler.save(maximum_paths_matrix, distribution)
-
-

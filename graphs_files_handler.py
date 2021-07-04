@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 def save(input_graph, dist, extra_details="", subdir_prefix="saved/"):
-    N=len(input_graph)
+    N = len(input_graph)
     subdir = "{0}/{1}".format(subdir_prefix, (str(dist)).replace("Distribution.", ""))
     if not os.path.exists(subdir):
         os.makedirs(subdir)
