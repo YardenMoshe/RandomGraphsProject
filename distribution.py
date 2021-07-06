@@ -14,6 +14,9 @@ class Distribution(Enum):
 
 
 def get_random_weights(distribution, N, pareto_parameters=(1, 1)):
+    if(distribution == distribution.PARETO and pareto_parameters == (1,1)):
+        raise ValueError('cant generate random pareto numbers because the function wasnt given pareto parameters. Try again with a third argument')
+
     if distribution == Distribution.EXPONENTIAL:
         return exponential_random(N)
 
