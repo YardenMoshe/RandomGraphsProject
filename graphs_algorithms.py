@@ -24,25 +24,26 @@ def calculate_maximum_paths_matrix(input):
 
     return output
 
+@nb.njit(['void(int64[:,::1])',
+          'void(int32[:,::1])',
+          'void(float64[:,::1])'])
+def zerofy_matrix_in_diamond_shape(input):
+    N = len(input)
+    for y in range(0, N):
+        for x in range(0, N):
+            half_N = N / 2
+            if abs(x - y) > half_N or abs(y + x - N) > half_N:
+                input[y][x] = 0
+
 
 @nb.njit(['int64[:,::1](int64[:,::1])',
           'int32[:,::1](int32[:,::1])',
           'float64[:,::1](float64[:,::1])'])
 def calculate_heavy_paths_diamond_matrix(input):
-    N = len(input)
-    for y in range(0, N):
-        for x in range(0, N):
-            half_N = N / 2
-            if abs(x - y) > half_N and abs(y + x - N) > half_N:
-                input[y][x] = 0
+    zerofy_matrix_in_diamond_shape(input)
     output = calculate_maximum_paths_matrix(input)
-    for y in range(N):
-        for x in range(N):
-            half_N = N / 2
-            if abs(x - y) > half_N or abs(y + x - N) > half_N:
-                output[y][x] = 0
+    zerofy_matrix_in_diamond_shape(output)
     return output
-
 
 @nb.njit(['UniTuple(int32, 3)(int32[:,::1])',
           'UniTuple(int64, 3)(int64[:,::1])',
