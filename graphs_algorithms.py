@@ -1,13 +1,12 @@
-import numpy
 import numpy as np
 import numba as nb
 
 __all__ = ['calculate_maximum_paths_matrix',
-           'calculate_heavy_paths_diamond_matrix',
-           'get_maximum_weight_index',
-           'get_maximum_path_weight',
-           'get_maximum_weight_full_path',
-           'get_maximum_index_from_max_path'
+           'calculate_maximum_paths_diamond_matrix',
+           'get_heaviest_vertex',
+           'get_max_path_value',
+           'get_max_path_as_indexes_list',
+           'get_heaviest_index_in_max_path'
            ]
 
 
@@ -33,9 +32,9 @@ def calculate_maximum_paths_matrix(input):
           'void(float64[:,::1])'])
 def zerofy_matrix_in_diamond_shape(input):
     N = len(input)
+    half_N = N / 2
     for y in range(0, N):
         for x in range(0, N):
-            half_N = N / 2
             if abs(x - y) > half_N or abs(y + x - N) > half_N:
                 input[y][x] = 0
 
@@ -43,7 +42,7 @@ def zerofy_matrix_in_diamond_shape(input):
 @nb.njit(['int64[:,::1](int64[:,::1])',
           'int32[:,::1](int32[:,::1])',
           'float64[:,::1](float64[:,::1])'])
-def calculate_heavy_paths_diamond_matrix(input):
+def calculate_maximum_paths_diamond_matrix(input):
     zerofy_matrix_in_diamond_shape(input)
     output = calculate_maximum_paths_matrix(input)
     zerofy_matrix_in_diamond_shape(output)
@@ -67,13 +66,13 @@ def get_maximum_weight_and_index(input):
 
 
 @nb.njit()
-def get_maximum_index_from_max_path(weights, max_paths_input, is_diamond=False):
-    indexes = get_maximum_weight_full_path(max_paths_input, is_diamond)
+def get_heaviest_index_in_max_path(weights, max_paths_input, is_diamond=False):
+    indexes = get_max_path_as_indexes_list(max_paths_input, is_diamond)
     max = 0
     max_index = indexes[0]
     for index in indexes:
         val = weights[index[0]][index[1]]
-        if (val > max):
+        if val > max:
             max = val
             max_index = index
     return max_index
@@ -91,18 +90,18 @@ def minux_oneify_matrix_in_diamond_shape(input):
                 input[y][x] = -1
 
 
-def get_maximum_weight_index(input):
+def get_heaviest_vertex(input):
     max_weight_and_index = get_maximum_weight_and_index(input)
     return (int(max_weight_and_index.__getitem__(0)),
             int(max_weight_and_index.__getitem__(1)))
 
 
-def get_maximum_path_weight(input):
+def get_max_path_value(input):
     return get_maximum_weight_and_index(input).__getitem__(2)
 
 
 @nb.njit()
-def get_maximum_weight_full_path(max_paths_input, is_diamond=False):
+def get_max_path_as_indexes_list(max_paths_input, is_diamond=False):
     list = []
     N = len(max_paths_input)
     #this is a hack but it will work...
